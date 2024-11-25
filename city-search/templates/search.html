@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>City Weather Search</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .search-form {
+            margin-bottom: 20px;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search for City Weather</h1>
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+    <form action="/search" method="post" class="search-form">
+        <input type="text" name="city" placeholder="Enter city name" autofocus>
+        <button type="submit">Search</button>
+    </form>
+</body>
+</html>

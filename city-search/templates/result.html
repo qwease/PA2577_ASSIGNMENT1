@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather for {{ weather.location.name }}</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .weather-info {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Weather for {{ weather.location.name }}, {{ weather.location.country }}</h1>
+    <div class="weather-info">
+        <p><strong>Temperature:</strong> {{ weather.current.temp_c }}°C</p>
+        <p><strong>Condition:</strong> {{ weather.current.condition.text }}</p>
+        <p><strong>Last Updated:</strong> {{ weather.current.last_updated }}</p>
+        <p><img src="{{ weather.current.condition.icon }}" alt="{{ weather.current.condition.text }}"></p>
+    </div>
+    <a href="/">Search Again</a>
+</body>
+</html>
