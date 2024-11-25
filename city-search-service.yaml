@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: city-search-service
+spec:
+  type: ClusterIP  # Internal access only
+  selector:
+    app: city-search
+  ports:
+  - protocol: TCP
+    port: 5000
+    targetPort: 5000

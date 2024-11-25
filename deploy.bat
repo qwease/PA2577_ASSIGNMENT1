@@ -1,0 +1,2 @@
+kubectl delete deploy --all
+kubectl apply -f data-display-deployment.yaml -f data-display-service.yaml -f city-search-deployment.yaml -f city-search-service.yaml -f mongodb-deployment.yaml -f mongodb-pv-pvc.yaml -f data-processing-cronjob.yaml -f weatherapi-secret.yaml

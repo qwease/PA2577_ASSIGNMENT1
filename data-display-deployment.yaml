@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-display-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: data-display
+  template:
+    metadata:
+      labels:
+        app: data-display
+    spec:
+      containers:
+      - name: data-display-container
+        image: 3269964641/data-display-service  # Update as needed
+        ports:
+        - containerPort: 5000
+        env:
+        - name: WEATHER_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: weatherapi-key
+              key: WEATHER_API_KEY
+        - name: MONGODB_HOST
+          value: 'mongodb-service'
+        - name: CITY_SEARCH_SERVICE_URL
+          value: 'http://city-search-service:5000'
+        imagePullPolicy: Always
