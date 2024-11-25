@@ -1,0 +1,9 @@
+<div>
+    <p><strong>Your Public IP:</strong> {{ ip }}</p>
+    <h1>IP Weather Information</h1>
+    <p><strong>Location:</strong> {{ weather.location.name }}, {{ weather.location.region }}, {{ weather.location.country }}</p>
+    <p><strong>Temperature:</strong> {{ weather.current.temp_c }}°C</p>
+    <p><strong>Condition:</strong> {{ weather.current.condition.text }}</p>
+    <p><img src="{{ weather.current.condition.icon }}" alt="{{ weather.current.condition.text }}"></p>
+    <p><strong>Last Updated:</strong> {{ weather.current.last_updated }}</p>
+</div>

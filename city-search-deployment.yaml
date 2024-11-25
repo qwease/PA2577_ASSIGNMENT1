@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: city-search-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: city-search
+  template:
+    metadata:
+      labels:
+        app: city-search
+    spec:
+      containers:
+      - name: city-search-container
+        image: 3269964641/city-search-service:latest
+        ports:
+        - containerPort: 5000
+        env:
+        - name: WEATHER_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: weatherapi-key
+              key: WEATHER_API_KEY
+        - name: MONGODB_HOST
+          value: 'mongodb-service'  # Adjust if necessary

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Current Weather</title>
+    <style>
+        /* Existing styles */
+        body {
+            display: flex;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        .main-content {
+            flex: 2;
+            padding: 20px;
+        }
+        .sidebar {
+            flex: 1;
+            padding: 20px;
+            border-left: 1px solid #ccc;
+            overflow-y: auto;
+            max-height: 100vh;
+        }
+        .city-weather {
+            margin-bottom: 20px;
+        }
+        .city-weather h3 {
+            margin-top: 0;
+        }
+        /* New styles for the search form */
+        .search-form {
+            margin-bottom: 20px;
+        }
+        .search-form input[type="text"] {
+            padding: 8px;
+            width: 200px;
+        }
+        .search-form button {
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-content">
+        <h1>Your Current Weather</h1>
+        <!-- User's Weather Info -->
+        <div id="weather-info">
+            <p>Fetching your weather information...</p>
+        </div>
+        <!-- City Search Form -->
+        <div class="search-form">
+            <h2>Search for a City</h2>
+            <form action="/search" method="post">
+                <input type="text" name="city" placeholder="Enter city name" required>
+                <button type="submit">Search</button>
+            </form>
+        </div>
+        <!-- Display Search Results -->
+        {% if searched_weather %}
+            <div id="searched-weather">
+                <h2>Weather for {{ searched_weather.location.name }}, {{ searched_weather.location.country }}</h2>
+                <p><strong>Temperature:</strong> {{ searched_weather.current.temp_c }}°C</p>
+                <p><strong>Condition:</strong> {{ searched_weather.current.condition.text }}</p>
+                <p><img src="{{ searched_weather.current.condition.icon }}" alt="{{ searched_weather.current.condition.text }}"></p>
+                <p><strong>Last Updated:</strong> {{ searched_weather.current.last_updated }}</p>
+            </div>
+        {% elif error_message %}
+            <div id="error-message">
+                <p style="color: red;">{{ error_message }}</p>
+            </div>
+        {% endif %}
+    </div>
+    <!-- Sidebar with Major Cities Weather -->
+    <div class="sidebar">
+        <h2>Major Cities Weather</h2>
+        {% for city_weather in major_cities_weather %}
+            <div class="city-weather">
+                <h3>{{ city_weather.location.name }}, {{ city_weather.location.country }}</h3>
+                <p><strong>Temperature:</strong> {{ city_weather.current.temp_c }}°C</p>
+                <p><strong>Condition:</strong> {{ city_weather.current.condition.text }}</p>
+                <p><img src="{{ city_weather.current.condition.icon }}" alt="{{ city_weather.current.condition.text }}"></p>
+                <p><strong>Last Updated:</strong> {{ city_weather.current.last_updated }}</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Existing JavaScript for fetching user's weather -->
+    <script>
+        function getIP(json) {
+            const userIP = json.ip;
+            console.log("User IP: ", userIP);
+
+            fetch('/submit-ip', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ip: userIP})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.weather_html) {
+                    document.getElementById('weather-info').innerHTML = data.weather_html;
+                } else {
+                    document.getElementById('weather-info').innerHTML = '<p>Error fetching weather data.</p>';
+                    console.error(data.error);
+                }
+            })
+            .catch(error => {
+                document.getElementById('weather-info').innerHTML = '<p>An error occurred.</p>';
+                console.error('Error:', error);
+            });
+        }
+    </script>
+    <script src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
+</body>
+</html>

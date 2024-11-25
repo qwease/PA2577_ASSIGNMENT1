@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Current Status</title>
+    <style>
+        /* Basic styling for layout */
+        body {
+            display: flex;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        .main-content {
+            flex: 2;
+            padding: 20px;
+        }
+        .system-info {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-content">
+        <h1>System Status</h1>
+        <div id="system-info">
+            <p><strong>Status:</strong> {{ status }}</p>
+            {% if status == "running" %}
+                <p><strong>System:</strong> {{ System }}</p>
+                <p><strong>CPU Usage:</strong> {{ CPU_Usage }}</p>
+                <p><strong>Memory Usage:</strong> {{ Memory_Usage }}</p>
+            {% else %}
+                <p><strong>Error:</strong> {{ error }}</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

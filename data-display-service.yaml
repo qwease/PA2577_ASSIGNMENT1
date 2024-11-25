@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: data-display-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: data-display
+  ports:
+  - protocol: TCP
+    port: 80   # External port
+    targetPort: 5000  # Container port

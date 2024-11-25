@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: data-processing-cronjob
+spec:
+  schedule: "0 * * * *"  # Runs at the top of every hour
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: data-processing
+        spec:
+          containers:
+          - name: data-processing-container
+            image: 3269964641/data-processing-service:latest
+            env:
+            - name: WEATHER_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: weatherapi-key
+                  key: WEATHER_API_KEY
+            - name: MONGODB_HOST
+              value: 'mongodb-service'
+          restartPolicy: OnFailure
